@@ -615,7 +615,13 @@ extension ActivityStreamPanel: DataObserverDelegate {
             self.hideFromHighlights(site)
         })
 
-        var actions = [openInNewTabAction, openInNewPrivateTabAction, bookmarkAction, shareAction]
+        var actions = [openInNewTabAction, openInNewPrivateTabAction, bookmarkAction]
+        // The UIActivityController can only be presented as a model on iPad.
+        // This presents a lot of problems when trying to display from an existing modal (ActionOverlayVC)
+        // You can still share an item by visting it and then accessing the share menu.
+        if UIDevice.current.userInterfaceIdiom != .pad {
+            actions.append(shareAction)
+        }
         switch section {
         case .highlights: actions.append(contentsOf: [dismissHighlightAction, deleteFromHistoryAction])
         case .topSites: actions.append(removeTopSiteAction)

@@ -7,7 +7,8 @@ import Storage
 import SnapKit
 
 private struct ActionOverlayTableViewUX {
-
+    static let MaxWidth: CGFloat = 375
+    static let Padding: CGFloat = 14
     static let HeaderHeight: CGFloat = 74
     static let RowHeight: CGFloat = 56
     static let LabelColor = UIAccessibilityDarkerSystemColorsEnabled() ? UIColor.black : UIColor(rgb: 0x353535)
@@ -36,9 +37,8 @@ class ActionOverlayTableViewController: UIViewController, UITableViewDelegate, U
     }()
 
     lazy var visualEffectView: UIVisualEffectView = {
-        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        visualEffectView.frame = self.view.bounds
-        visualEffectView.alpha = 0.90
+        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        visualEffectView.alpha = 0.5
         return visualEffectView
     }()
 
@@ -55,7 +55,7 @@ class ActionOverlayTableViewController: UIViewController, UITableViewDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.clear.withAlphaComponent(0.4)
+        view.addSubview(visualEffectView)
         view.addGestureRecognizer(tapRecognizer)
         view.addSubview(tableView)
         view.accessibilityIdentifier = "Action Overlay"
@@ -73,9 +73,17 @@ class ActionOverlayTableViewController: UIViewController, UITableViewDelegate, U
         tableView.cellLayoutMarginsFollowReadableWidth = false
         tableView.accessibilityIdentifier = "Context Menu"
 
+
+        let width = min(self.view.frame.size.width, ActionOverlayTableViewUX.MaxWidth) - (ActionOverlayTableViewUX.Padding * 2)
+
+        visualEffectView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view)
+        }
+
+        print(self.view.frame.size.width)
         tableView.snp.makeConstraints { make in
             make.center.equalTo(self.view)
-            make.width.equalTo(290)
+            make.width.equalTo(width)
             setHeightConstraint(make)
         }
     }

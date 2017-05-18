@@ -37,8 +37,7 @@ class ActionOverlayTableViewController: UIViewController, UITableViewDelegate, U
     }()
 
     lazy var visualEffectView: UIVisualEffectView = {
-        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-        visualEffectView.alpha = 0.5
+        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         return visualEffectView
     }()
 
@@ -181,7 +180,7 @@ class ActionOverlayTableViewHeader: UITableViewHeaderFooterView {
         titleLabel.font = DynamicFontHelper.defaultHelper.DeviceFontMediumBold
         titleLabel.textColor = ActionOverlayTableViewUX.LabelColor
         titleLabel.textAlignment = .left
-        titleLabel.numberOfLines = 1
+        titleLabel.numberOfLines = 2
         return titleLabel
     }()
 
